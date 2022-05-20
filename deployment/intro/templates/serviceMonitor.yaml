@@ -1,0 +1,20 @@
+{{- if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "intro.fullname" . }}
+  labels:
+    {{- include "intro.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- with .Values.service.labels }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+  jobLabel: {{ include "intro.fullname" . }}
+  namespaceSelector:
+    any: true
+  endpoints:
+  - port: http
+    interval: 15s
+{{- end }}

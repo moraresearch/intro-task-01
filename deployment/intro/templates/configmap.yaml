@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "intro.fullname" . }}
+  labels:
+    {{- include "intro.labels" . | nindent 4 }}
+data:
+{{- include "intro.envs_configmap" . | nindent 2 }}
